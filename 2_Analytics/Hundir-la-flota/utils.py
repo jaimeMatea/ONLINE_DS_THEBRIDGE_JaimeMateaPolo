@@ -68,13 +68,16 @@ def recibir_disparo(tablero, coordenada,dict_barcos,barcos):
                 if len(coordenadas_antiguas)==0:
                     if eslora_antigua==2:
                         dict_barcos["Destructor (size 2)"]-=1
-                        print("Destructor hundido")
+                        print("Destructor hundido\n")
+                        print(f"Barcos restantes del rival: {dict_barcos}\n")
                     elif eslora_antigua==3:
                         dict_barcos["Acorazado (size 3)"]-=1
-                        print("Acorazado hundido")
+                        print("Acorazado hundido\n")
+                        print(f"Barcos restantes del rival: {dict_barcos}\n")
                     elif eslora_antigua==4:
                         dict_barcos["Portaaviones (size 4)"]-=1
-                        print("Portaaviones hundido")
+                        print("Portaaviones hundido\n")
+                        print(f"Barcos restantes del rival: {dict_barcos}\n")
                 break
         return True
     elif tablero[coordenada]=="X":
