@@ -53,7 +53,8 @@ def iniciar():
     num_x_1=0
     num_x_2=0
 
-    while num_x_1<16 and num_x_2<16:
+    #while num_x_1<16 and num_x_2<16:
+    while sum(dict_barcos_j1.values())>0 and sum(dict_barcos_j2.values())>0:
 
         # Ronda
         print(f"""TURNO DE {jugador1}\n****************""")
@@ -72,10 +73,8 @@ def iniciar():
         print("Radar del jugador 2:")
         print(tablero1_marcar)
 
+
         time.sleep(2)
-
-
-
 
     
         print(f"""\nTURNO DEL JUGADOR 2\n*******************""")
@@ -97,8 +96,6 @@ def iniciar():
         print(f"{jugador1} ha ganado")
     if num_x_2==16:
         print("Jugador 2 ha ganado")
-
-
 
 
 
