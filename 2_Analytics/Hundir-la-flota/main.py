@@ -38,6 +38,7 @@ def iniciar():
         tablero1,barco1=crea_barco_aleatorio(tablero1,i,dict_barcos_j1)
         barco_eslora=[i,barco1]
         barcos_j1.append(barco_eslora)
+        print(barco1)
         print(barco_eslora)
 
     # Creación barcos iniciales j2
