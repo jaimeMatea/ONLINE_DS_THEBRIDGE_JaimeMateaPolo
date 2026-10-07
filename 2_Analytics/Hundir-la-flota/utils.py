@@ -52,7 +52,8 @@ def crea_barco_aleatorio(tablero,eslora,dict_barcos):
             barco.append(pieza)
         tablero_temp = coloca_barco_plus(tablero, barco)
         if type(tablero_temp) == np.ndarray:
-            print(dic_barcos(dict_barcos,barco))
+            #print(dic_barcos(dict_barcos,barco))
+            dic_barcos(dict_barcos,barco)
             return tablero_temp,barco
 
 
