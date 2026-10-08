@@ -1,6 +1,7 @@
 import numpy as np
 import time
-from utils import crea_barco_aleatorio,recibir_disparo
+import random
+from utils import crea_barco_aleatorio,recibir_disparo,comprueba_coordenada_x,comprueba_coordenada_y
 
 def iniciar():
 
@@ -12,23 +13,6 @@ def iniciar():
     dict_barcos_j1={"Destructor (size 2)":0, "Acorazado (size 3)":0, "Portaaviones (size 4)":0}
     dict_barcos_j2={"Destructor (size 2)":0, "Acorazado (size 3)":0, "Portaaviones (size 4)":0}
 
-    # #Creación tablero inicial j1
-    # tablero1 = crea_barco_aleatorio(tablero1,2,dict_barcos_j1)
-    # tablero1 = crea_barco_aleatorio(tablero1,2,dict_barcos_j1)
-    # tablero1 = crea_barco_aleatorio(tablero1,2,dict_barcos_j1)
-    # tablero1 = crea_barco_aleatorio(tablero1,3,dict_barcos_j1)
-    # tablero1 = crea_barco_aleatorio(tablero1,3,dict_barcos_j1)
-    # tablero1 = crea_barco_aleatorio(tablero1,4,dict_barcos_j1)
-
-    # #Creación tablero inicial j2
-    # tablero2 = crea_barco_aleatorio(tablero2,2,dict_barcos_j2)
-    # tablero2 = crea_barco_aleatorio(tablero2,2,dict_barcos_j2)
-    # tablero2 = crea_barco_aleatorio(tablero2,2,dict_barcos_j2)
-    # tablero2 = crea_barco_aleatorio(tablero2,3,dict_barcos_j2)
-    # tablero2 = crea_barco_aleatorio(tablero2,3,dict_barcos_j2)
-    # tablero2 = crea_barco_aleatorio(tablero2,4,dict_barcos_j2)
-
-
     barcos_j1=[]
     barcos_j2=[]
     esloras=[2,2,2,3,3,4]
@@ -37,9 +21,7 @@ def iniciar():
     for i in esloras:
         tablero1,barco1=crea_barco_aleatorio(tablero1,i,dict_barcos_j1)
         barco_eslora=[i,barco1]
-        barcos_j1.append(barco_eslora)
-        print(barco1)
-        print(barco_eslora)
+        barcos_j1.append(barco_eslora)  
 
     # Creación barcos iniciales j2
     for i in esloras:
@@ -49,58 +31,186 @@ def iniciar():
 
 
 
+    #LISTAS CON TODAS LAS COORDENADAS DE LOS TABLEROS
+    coordenadas_j1=[]
+    coordenadas_j2=[]
+
+    for i in range(np.shape(tablero1)[0]):
+        for j in range(np.shape(tablero1)[1]):
+            coordenadas_j1.append((i,j))
+            
+    for i in range(np.shape(tablero2)[0]):
+        for j in range(np.shape(tablero2)[1]):
+            coordenadas_j2.append((i,j))
+
+    print("""
+╔════════════════════════════╗
+║     JUEGO DEL AHORCADO     ║
+╚════════════════════════════╝
+""")
+
     jugador1=input("Introduce tu nombre, jugador 1: ")
+    jugador2="Jugador 2"
 
     num_x_1=0
     num_x_2=0
+    salir=False
 
-    #while num_x_1<16 and num_x_2<16:
-    while sum(dict_barcos_j1.values())>0 and sum(dict_barcos_j2.values())>0:
 
+    while sum(dict_barcos_j1.values())>0 and sum(dict_barcos_j2.values())>0 and salir==False:
         # Ronda
         print(f"""TURNO DE {jugador1}\n****************""")
-        x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar: "))
-        y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar: "))
+        print(tablero2)
 
-        disparo_j1 = recibir_disparo(tablero2,(x1,y1),dict_barcos_j2,barcos_j2)
-        if disparo_j1:
+        x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al 10): "))
+        x1=comprueba_coordenada_x(x1,jugador1)
+        y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al 10): "))
+        y1=comprueba_coordenada_y(y1,jugador1)
+
+        disparo_j1 = recibir_disparo(tablero2,(x1-1,y1-1),dict_barcos_j2,barcos_j2,jugador1)
+ 
+        while disparo_j1==False and (tablero2[x1-1,y1-1]=="X" or tablero2[x1-1,y1-1]=="-"):
+            print("entra")
+            x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al 10): "))
+            x1=comprueba_coordenada_x(x1,jugador1)
+            y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al 10): "))
+            y1=comprueba_coordenada_y(y1,jugador1)
+            disparo_j1=recibir_disparo(tablero2,(x1-1,y1-1),dict_barcos_j2,barcos_j2,jugador1)
+
+        if disparo_j1 and tablero2[(x1-1,y1-1)]=="X":
             num_x_1+=1
-            tablero1_marcar[(x1,y1)]="X"
-        else:
-            if tablero2[(x1,y1)]=="-":
-                tablero1_marcar[(x1,y1)]="-"
+            tablero1_marcar[(x1-1,y1-1)]="X"
+                                  
+        if disparo_j1 and tablero2[(x1-1,y1-1)]=="-":
+            tablero1_marcar[(x1-1,y1-1)]="-"
                 
         print(f"Puntos de {jugador1}: {num_x_1}")
         print("Radar del jugador 2:")
         print(tablero1_marcar)
 
+        if sum(dict_barcos_j2.values())==0:
+            salir=True
 
-        time.sleep(2)
+
+
+
+
+        # #CODIGO JUGADOR 1 PRUEBA RAPIDA
+        # coordenada_j1=random.choice(coordenadas_j1)
+        # coordenadas_j1.remove(coordenada_j1)
+
+        # x1=coordenada_j1[0]
+        # y1=coordenada_j1[1]
+
+        # disparo_j1 = recibir_disparo(tablero2,(x1,y1),dict_barcos_j2,barcos_j2,jugador1)
+
+        # if disparo_j1 and tablero2[(x1,y1)]=="X":
+        #     num_x_1+=1
+        #     tablero1_marcar[(x1,y1)]="X"
+
+        # if disparo_j1 and tablero2[(x1,y1)]=="-":
+        #     tablero1_marcar[(x1,y1)]="-"
+
+        # print(f"Puntos del jugador 1: {num_x_1}\n\n")
+        # print("Radar del jugador 2:")
+        # print(tablero1_marcar)
+
+        # if sum(dict_barcos_j2.values())==0:
+        #     salir=True
+
+        
+
+        #time.sleep(2)
+
+
+
 
     
         print(f"""\nTURNO DEL JUGADOR 2\n*******************""")
-        x2=np.random.randint(0,9)
-        y2=np.random.randint(0,9)
+        print(tablero1)
+        coordenada_j2=random.choice(coordenadas_j2)
+        coordenadas_j2.remove(coordenada_j2)
 
-        disparo_j2 = recibir_disparo(tablero1,(x2,y2),dict_barcos_j1,barcos_j1)
-        if disparo_j2:
+        x2=coordenada_j2[0]
+        y2=coordenada_j2[1]
+
+        disparo_j2 = recibir_disparo(tablero1,(x2,y2),dict_barcos_j1,barcos_j1,jugador2)
+
+        if disparo_j2 and tablero1[(x2,y2)]=="X":
             num_x_2+=1
             tablero2_marcar[(x2,y2)]="X"
-        else:
-            if tablero1[(x2,y2)]=="-":
-                tablero2_marcar[(x2,y2)]="-"
-                
+
+        if disparo_j2 and tablero1[(x2,y2)]=="-":
+            tablero2_marcar[(x2,y2)]="-"
+
         print(f"Puntos del jugador 2: {num_x_2}\n\n")
+        #print("Radar del jugador 1:")
+        #print(tablero2_marcar)
+
+        if sum(dict_barcos_j1.values())==0:
+            salir=True
+
+        # salida=input("Escribe 'exit' si deseas salir del juego: ")
+        # if salida=="exit":
+        #     salir=True
 
 
-    if num_x_1==16:
+
+        #time.sleep(2)
+
+
+
+
+    if sum(dict_barcos_j2.values())==0:
         print(f"{jugador1} ha ganado")
-    if num_x_2==16:
+    if sum(dict_barcos_j1.values())==0:
         print("Jugador 2 ha ganado")
 
 
 
 
+# Menu
+# Meter def crear tablero ?
+# Poner las casillas golpeadas y las no golpeadas? en otro color (rojo?)
+# Que si gana el jugador 1, no haga su turno igualmente el jugador 2 ✅
+# No poder meter coordenadas mal ✅
+# Que la maquina no pueda disparar en el mismo sitio ✅
+# Arreglar lo de las coordenadas en la maquina es de 1-9? y la persona 1-10? ✅
+
+
 
 if __name__ == "__main__":
     iniciar()
+
+
+
+
+
+
+
+
+
+
+
+
+# #x2=np.random.randint(0,9)
+# #y2=np.random.randint(0,9)
+# x2=np.random.randint(0, tablero2.shape[0])
+# y2=np.random.randint(0, tablero2.shape[1])
+
+# disparo_j2 = recibir_disparo(tablero1,(x2,y2),dict_barcos_j1,barcos_j1,jugador2)
+
+# while disparo_j2==False and (tablero1[x2,y2]=="X" or tablero1[x2,y2]=="-"):
+#     #print("entra")
+#     x2=np.random.randint(0,9)
+#     y2=np.random.randint(0,9)
+#     disparo_j2=recibir_disparo(tablero1,(x2,y2),dict_barcos_j1,barcos_j1,jugador2)
+
+# if disparo_j2 and tablero1[(x2,y2)]=="X":
+#     num_x_2+=1
+#     tablero2_marcar[(x2,y2)]="X"
+
+# if disparo_j2 and tablero1[(x2,y2)]=="-":
+#     tablero2_marcar[(x2,y2)]="-"
+
+# print(f"Puntos del jugador 2: {num_x_2}\n\n")
