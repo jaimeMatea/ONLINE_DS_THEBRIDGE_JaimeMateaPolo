@@ -7,6 +7,23 @@ def crea_tablero(lado):
     return tablero
 
 
+def menu():
+    print("""
+    ╔════════════════════════════╗
+    ║     JUEGO DEL AHORCADO     ║
+    ╚════════════════════════════╝
+
+    Inserta 1 para comenzar a jugar
+
+    Inserta 2 para salir del juego
+
+    \x1B[3m-Pulsa la tecla esc en cualquier momento para volver al menu\x1B[0m-
+    """)
+    entrada=int(input(""))
+    print("\n")
+    return entrada
+
+
 def comprueba_coordenada_x(x1,jugador1):
     while x1>10 or x1<1:
         if x1>10:
