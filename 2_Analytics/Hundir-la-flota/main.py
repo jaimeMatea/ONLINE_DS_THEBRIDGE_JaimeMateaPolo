@@ -120,7 +120,7 @@ def iniciar():
 
         
 
-        #time.sleep(2)
+        time.sleep(2)
 
 
 
@@ -150,13 +150,16 @@ def iniciar():
         if sum(dict_barcos_j1.values())==0:
             salir=True
 
+
+
+
         # salida=input("Escribe 'exit' si deseas salir del juego: ")
         # if salida=="exit":
         #     salir=True
 
 
 
-        #time.sleep(2)
+        time.sleep(2)
 
 
 
@@ -169,9 +172,9 @@ def iniciar():
 
 
 
-# Menu
+# Menu (def?)
+# Poner las casillas golpeadas? en otro color (rojo?)
 # Meter def crear tablero ?
-# Poner las casillas golpeadas y las no golpeadas? en otro color (rojo?)
 # Que si gana el jugador 1, no haga su turno igualmente el jugador 2 ✅
 # No poder meter coordenadas mal ✅
 # Que la maquina no pueda disparar en el mismo sitio ✅
