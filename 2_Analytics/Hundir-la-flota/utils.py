@@ -1,10 +1,26 @@
 import numpy as np
 import random
+import sys
+import keyboard
 
-#???????????????
-def crea_tablero(lado):
-    tablero = np.full((lado,lado)," ")
-    return tablero
+
+def imprimir_tablero_color(tablero):
+    for i in tablero:
+        fila_coloreada = []
+        for j in i:
+            if j=="X":
+                #fila_coloreada.append("\033[31mX\033[0m") # Rojo
+                fila_coloreada.append("🔥")
+            elif j=="-":
+                #fila_coloreada.append("\033[33m-\033[33m") # Amarillo
+                fila_coloreada.append("💦")
+            elif j=="~":
+                #fila_coloreada.append("\033[34m~\033[0m") # Azul
+                fila_coloreada.append("🌊")
+            elif j=="O":
+                fila_coloreada.append("🚢")
+        print(" ".join(fila_coloreada))
+    print()
 
 
 def menu():
@@ -13,15 +29,21 @@ def menu():
     ║     JUEGO DEL AHORCADO     ║
     ╚════════════════════════════╝
 
-    Inserta 1 para comenzar a jugar
-
-    Inserta 2 para salir del juego
+    [1] 🎮 COMENZAR BATALLA
+        
+    [2] ❌ SALIR DEL JUEGO
 
     \x1B[3m-Pulsa la tecla esc en cualquier momento para volver al menu\x1B[0m-
     """)
     entrada=int(input(""))
     print("\n")
     return entrada
+
+
+def salir():
+    if keyboard.is_pressed('esc'):
+        print("\n[!] Volviendo al menu...\n")
+    #sys.exit(0)
 
 
 def comprueba_coordenada_x(x1,jugador1):
@@ -59,7 +81,6 @@ def comprueba_coordenada_y(y1,jugador1):
 
 
 def coloca_barco_plus(tablero, barco):
-    # Nos devuelve el tablero si puede colocar el barco, si no devuelve False, y avise por pantalla
     tablero_temp = tablero.copy()
     num_max_filas = tablero.shape[0]
     num_max_columnas = tablero.shape[1]
@@ -109,7 +130,6 @@ def crea_barco_aleatorio(tablero,eslora,dict_barcos):
             barco.append(pieza)
         tablero_temp = coloca_barco_plus(tablero, barco)
         if type(tablero_temp) == np.ndarray:
-            #print(dic_barcos(dict_barcos,barco))
             dic_barcos(dict_barcos,barco)
             return tablero_temp,barco
 
@@ -126,15 +146,15 @@ def recibir_disparo(tablero,coordenada,dict_barcos,barcos,jugador):
                 if len(coordenadas_antiguas)==0:
                     if eslora_antigua==2:
                         dict_barcos["Destructor (size 2)"]-=1
-                        print("Destructor hundido\n")
+                        print("Destructor hundido 🔥☠️\n")
                         print(f"Barcos restantes del rival: {dict_barcos}\n")
                     elif eslora_antigua==3:
                         dict_barcos["Acorazado (size 3)"]-=1
-                        print("Acorazado hundido\n")
+                        print("Acorazado hundido 🔥☠️\n")
                         print(f"Barcos restantes del rival: {dict_barcos}\n")
                     elif eslora_antigua==4:
                         dict_barcos["Portaaviones (size 4)"]-=1
-                        print("Portaaviones hundido\n")
+                        print("Portaaviones hundido 🔥☠️\n")
                         print(f"Barcos restantes del rival: {dict_barcos}\n")
                 break
         return True
