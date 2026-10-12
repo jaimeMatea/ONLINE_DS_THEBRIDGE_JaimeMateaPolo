@@ -1,8 +1,7 @@
 import numpy as np
 import random
-import sys
+import _thread
 import keyboard
-
 
 def imprimir_tablero_color(tablero):
     for i in tablero:
@@ -40,10 +39,10 @@ def menu():
     return entrada
 
 
-def salir():
-    if keyboard.is_pressed('esc'):
-        print("\n[!] Volviendo al menu...\n")
-    #sys.exit(0)
+def salir_partida():
+    print("\nSaliendo de la partida...")
+    _thread.interrupt_main()
+    keyboard.press_and_release('enter')
 
 
 def comprueba_coordenada_x(x1,jugador1):
@@ -111,7 +110,7 @@ def crea_barco_aleatorio(tablero,eslora,dict_barcos):
     num_max_filas = tablero.shape[0]
     num_max_columnas = tablero.shape[1]
     while True:
-        barco = []
+        barco=[]
         posicion_inicial = (random.randint(0,num_max_filas-1),random.randint(0, num_max_columnas -1))
         barco.append(posicion_inicial)
         orientacion = random.choice(["N","S","O","E"])
@@ -126,12 +125,59 @@ def crea_barco_aleatorio(tablero,eslora,dict_barcos):
                 columna+=1
             else:
                 columna-=1
-            pieza = (fila,columna)
+            pieza=(fila,columna)
             barco.append(pieza)
         tablero_temp = coloca_barco_plus(tablero, barco)
         if type(tablero_temp) == np.ndarray:
             dic_barcos(dict_barcos,barco)
             return tablero_temp,barco
+
+
+def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):
+    num_max_filas = tablero.shape[0]
+    num_max_columnas = tablero.shape[1]
+    
+    dict_nombres = {2: "Destructor (size 2)", 3: "Acorazado (size 3)", 4: "Portaaviones (size 4)"}
+    nombre_barco = dict_nombres[eslora]
+
+    while True:
+        print(f"Coloca el barco --> {nombre_barco}")
+        try:
+            fila=int(input(f"{jugador}, introduce la fila inicial (1 al {num_max_filas}): "))-1
+            columna=int(input(f"{jugador}, introduce la columna inicial (1 al {num_max_columnas}): "))-1
+        except ValueError:
+            print("Por favor, introduce un número válidos")
+            continue
+
+        orientacion=input("Introduce la orientación (N / S / E / O): ").strip().upper()
+        if orientacion not in ["N","S","E","O"]:
+            print("La orientación no es correcta. Debe ser N, S, E u O")
+            continue
+
+        barco=[]
+        posicion_inicial = (fila,columna)
+        barco.append(posicion_inicial)
+        
+        for i in range(eslora-1):
+            if orientacion=="N":
+                fila-=1
+            elif orientacion=="S":
+                fila+=1
+            elif orientacion=="E":
+                columna+=1
+            else:
+                columna-=1
+            pieza=(fila,columna)
+            barco.append(pieza)
+        tablero_temp=coloca_barco_plus(tablero,barco)
+        if type(tablero_temp)==np.ndarray:
+            dic_barcos(dict_barcos,barco)
+            print("Barco colocado correctamente")
+            print(tablero_temp)
+            return tablero_temp,barco
+        else:
+            print("El barco se sale del mapa o choca con otro barco, prueba otra vez")
+
 
 
 def recibir_disparo(tablero,coordenada,dict_barcos,barcos,jugador):
