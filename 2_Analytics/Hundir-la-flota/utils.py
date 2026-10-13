@@ -1,7 +1,5 @@
 import numpy as np
 import random
-import _thread
-import keyboard
 
 def imprimir_tablero_color(tablero):
     for i in tablero:
@@ -32,29 +30,24 @@ def menu():
         
     [2] ❌ SALIR DEL JUEGO
 
-    \x1B[3m-Pulsa la tecla esc en cualquier momento para volver al menu\x1B[0m-
+    \x1B[3m-Escribe la palabrea 'salir' en cualquier momento para cancelar la partida y volver al menú-\x1B[0m
     """)
     entrada=int(input(""))
     print("\n")
     return entrada
 
 
-def salir_partida():
-    print("\nSaliendo de la partida...")
-    _thread.interrupt_main()
-    keyboard.press_and_release('enter')
-
-
 def comprueba_coordenada_x(x1,jugador1,tablero1):
-    #while x1>10 or x1<1:
+    if x1=="salir":
+        return x1
+    x1=int(x1)
     while x1>tablero1.shape[0] or x1<1:
-        #if x1>10:
         if x1>tablero1.shape[0]:
             print(f"Demasiado alto, introduce un número en la coordenada x entre 1 y {tablero1.shape[0]}, prueba otra vez")
-            x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): "))
+            x1=input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): ")
         elif x1<1:
             print(f"Demasiado bajo, introduce un número en la coordenada x entre 1 y {tablero1.shape[0]}, prueba otra vez")
-            x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): "))
+            x1=input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): ")
         # elif str(x1)=="":
         #     print("Ningun valor introducido, introduce un número en la coordenada x entre 1 y 10, prueba otra vez")
         #     x1=input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al 10): ")
@@ -65,15 +58,16 @@ def comprueba_coordenada_x(x1,jugador1,tablero1):
 
 
 def comprueba_coordenada_y(y1,jugador1,tablero1):
-    #while y1>10 or y1<1:
+    if y1=="salir":
+            return y1
+    y1=int(y1)
     while y1>tablero1.shape[1] or y1<1:
-        #if y1>10:
         if y1>tablero1.shape[1]:
             print(f"Demasiado alto, introduce un número en la coordenada y entre 1 y {tablero1.shape[1]}, prueba otra vez")
-            y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): "))
+            y1=input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): ")
         elif y1<1:
             print(f"Demasiado bajo, introduce un número en la coordenada y entre 1 y {tablero1.shape[1]}, prueba otra vez")
-            y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): "))
+            y1=input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): ")
         # elif str(y1)=="":
         #     print("Ningun valor introducido, introduce un número en la coordenada y entre 1 y 10, prueba otra vez")
         #     y1=input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al 10): ")
@@ -81,6 +75,16 @@ def comprueba_coordenada_y(y1,jugador1,tablero1):
         #     print("El caracter no se admite, prueba otra vez")
         #     y1=input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al 10): ")
     return y1
+
+
+def dic_barcos(dict_barcos,barco):
+    if len(barco)==2:
+        dict_barcos["Destructor (size 2)"]+=1
+    elif len(barco)==3:
+        dict_barcos["Acorazado (size 3)"]+=1
+    elif len(barco)==4:
+        dict_barcos["Portaaviones (size 4)"]+=1
+    return dict_barcos
 
 
 def coloca_barco_plus(tablero, barco):
@@ -100,19 +104,7 @@ def coloca_barco_plus(tablero, barco):
     return tablero_temp
 
 
-def dic_barcos(dict_barcos,barco):
-    if len(barco)==2:
-        dict_barcos["Destructor (size 2)"]+=1
-    elif len(barco)==3:
-        dict_barcos["Acorazado (size 3)"]+=1
-    elif len(barco)==4:
-        dict_barcos["Portaaviones (size 4)"]+=1
-    return dict_barcos
-
-
 def crea_barco_aleatorio(tablero,eslora,dict_barcos):
-    #num_max_filas = tablero.shape[0]
-    #num_max_columnas = tablero.shape[1]
     while True:
         barco=[]
         posicion_inicial = (random.randint(0,tablero.shape[0]-1),random.randint(0,tablero.shape[1]-1))
@@ -137,10 +129,7 @@ def crea_barco_aleatorio(tablero,eslora,dict_barcos):
             return tablero_temp,barco
 
 
-def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):
-    #num_max_filas = tablero.shape[0]
-    #num_max_columnas = tablero.shape[1]
-    
+def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):    
     dict_nombres = {2: "Destructor (size 2)", 3: "Acorazado (size 3)", 4: "Portaaviones (size 4)"}
     nombre_barco = dict_nombres[eslora]
 
@@ -148,6 +137,8 @@ def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):
         print(f"Coloca el barco --> {nombre_barco}")
         try:
             fila=int(input(f"{jugador}, introduce la fila inicial (1 al {tablero.shape[0]}): "))-1
+            # if fila=="salir":
+            #     return "salir"
             columna=int(input(f"{jugador}, introduce la columna inicial (1 al {tablero.shape[1]}): "))-1
         except ValueError:
             print("El numero es incorrecto, introduce uno válido")
@@ -176,12 +167,11 @@ def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):
         tablero_temp=coloca_barco_plus(tablero,barco)
         if type(tablero_temp)==np.ndarray:
             dic_barcos(dict_barcos,barco)
-            print("Barco colocado correctamente")
+            print("Barco colocado correctamente\n")
             print(tablero_temp)
             return tablero_temp,barco
         else:
             print("El barco se sale del mapa o choca con otro barco, prueba otra vez")
-
 
 
 def recibir_disparo(tablero,coordenada,dict_barcos,barcos,jugador):
