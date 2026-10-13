@@ -46,8 +46,10 @@ def salir_partida():
 
 
 def comprueba_coordenada_x(x1,jugador1,tablero1):
-    while x1>10 or x1<1:
-        if x1>10:
+    #while x1>10 or x1<1:
+    while x1>tablero1.shape[0] or x1<1:
+        #if x1>10:
+        if x1>tablero1.shape[0]:
             print(f"Demasiado alto, introduce un número en la coordenada x entre 1 y {tablero1.shape[0]}, prueba otra vez")
             x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): "))
         elif x1<1:
@@ -63,8 +65,10 @@ def comprueba_coordenada_x(x1,jugador1,tablero1):
 
 
 def comprueba_coordenada_y(y1,jugador1,tablero1):
-    while y1>10 or y1<1:
-        if y1>10:
+    #while y1>10 or y1<1:
+    while y1>tablero1.shape[1] or y1<1:
+        #if y1>10:
+        if y1>tablero1.shape[1]:
             print(f"Demasiado alto, introduce un número en la coordenada y entre 1 y {tablero1.shape[1]}, prueba otra vez")
             y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): "))
         elif y1<1:
@@ -107,11 +111,11 @@ def dic_barcos(dict_barcos,barco):
 
 
 def crea_barco_aleatorio(tablero,eslora,dict_barcos):
-    num_max_filas = tablero.shape[0]
-    num_max_columnas = tablero.shape[1]
+    #num_max_filas = tablero.shape[0]
+    #num_max_columnas = tablero.shape[1]
     while True:
         barco=[]
-        posicion_inicial = (random.randint(0,num_max_filas-1),random.randint(0, num_max_columnas -1))
+        posicion_inicial = (random.randint(0,tablero.shape[0]-1),random.randint(0,tablero.shape[1]-1))
         barco.append(posicion_inicial)
         orientacion = random.choice(["N","S","O","E"])
         fila = posicion_inicial[0]
@@ -134,8 +138,8 @@ def crea_barco_aleatorio(tablero,eslora,dict_barcos):
 
 
 def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):
-    num_max_filas = tablero.shape[0]
-    num_max_columnas = tablero.shape[1]
+    #num_max_filas = tablero.shape[0]
+    #num_max_columnas = tablero.shape[1]
     
     dict_nombres = {2: "Destructor (size 2)", 3: "Acorazado (size 3)", 4: "Portaaviones (size 4)"}
     nombre_barco = dict_nombres[eslora]
@@ -143,8 +147,8 @@ def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):
     while True:
         print(f"Coloca el barco --> {nombre_barco}")
         try:
-            fila=int(input(f"{jugador}, introduce la fila inicial (1 al {num_max_filas}): "))-1
-            columna=int(input(f"{jugador}, introduce la columna inicial (1 al {num_max_columnas}): "))-1
+            fila=int(input(f"{jugador}, introduce la fila inicial (1 al {tablero.shape[0]}): "))-1
+            columna=int(input(f"{jugador}, introduce la columna inicial (1 al {tablero.shape[1]}): "))-1
         except ValueError:
             print("El numero es incorrecto, introduce uno válido")
             continue
