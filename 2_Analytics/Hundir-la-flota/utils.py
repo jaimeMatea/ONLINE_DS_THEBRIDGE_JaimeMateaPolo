@@ -45,14 +45,14 @@ def salir_partida():
     keyboard.press_and_release('enter')
 
 
-def comprueba_coordenada_x(x1,jugador1):
+def comprueba_coordenada_x(x1,jugador1,tablero1):
     while x1>10 or x1<1:
         if x1>10:
-            print("Demasiado alto, introduce un número en la coordenada x entre 1 y 10, prueba otra vez")
-            x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al 10): "))
+            print(f"Demasiado alto, introduce un número en la coordenada x entre 1 y {tablero1.shape[0]}, prueba otra vez")
+            x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): "))
         elif x1<1:
-            print("Demasiado bajo, introduce un número en la coordenada x entre 1 y 10, prueba otra vez")
-            x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al 10): "))
+            print(f"Demasiado bajo, introduce un número en la coordenada x entre 1 y {tablero1.shape[0]}, prueba otra vez")
+            x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): "))
         # elif str(x1)=="":
         #     print("Ningun valor introducido, introduce un número en la coordenada x entre 1 y 10, prueba otra vez")
         #     x1=input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al 10): ")
@@ -62,14 +62,14 @@ def comprueba_coordenada_x(x1,jugador1):
     return x1
 
 
-def comprueba_coordenada_y(y1,jugador1):
+def comprueba_coordenada_y(y1,jugador1,tablero1):
     while y1>10 or y1<1:
         if y1>10:
-            print("Demasiado alto, introduce un número en la coordenada y entre 1 y 10, prueba otra vez")
-            y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al 10): "))
+            print(f"Demasiado alto, introduce un número en la coordenada y entre 1 y {tablero1.shape[1]}, prueba otra vez")
+            y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): "))
         elif y1<1:
-            print("Demasiado bajo, introduce un número en la coordenada y entre 1 y 10, prueba otra vez")
-            y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al 10): "))
+            print(f"Demasiado bajo, introduce un número en la coordenada y entre 1 y {tablero1.shape[1]}, prueba otra vez")
+            y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): "))
         # elif str(y1)=="":
         #     print("Ningun valor introducido, introduce un número en la coordenada y entre 1 y 10, prueba otra vez")
         #     y1=input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al 10): ")
@@ -146,7 +146,7 @@ def crea_barco_aleatorio_j1(tablero,eslora,dict_barcos,jugador):
             fila=int(input(f"{jugador}, introduce la fila inicial (1 al {num_max_filas}): "))-1
             columna=int(input(f"{jugador}, introduce la columna inicial (1 al {num_max_columnas}): "))-1
         except ValueError:
-            print("Por favor, introduce un número válidos")
+            print("El numero es incorrecto, introduce uno válido")
             continue
 
         orientacion=input("Introduce la orientación (N / S / E / O): ").strip().upper()
