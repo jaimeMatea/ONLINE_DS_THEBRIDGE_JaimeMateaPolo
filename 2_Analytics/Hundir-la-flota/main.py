@@ -27,8 +27,8 @@ def iniciar():
             jugador1=input("Introduce tu nombre, jugador 1: ")
             jugador2="Jugador 2"
 
-            num_max_filas = tablero1.shape[0]
-            num_max_columnas = tablero1.shape[1]
+            #num_max_filas = tablero1.shape[0]
+            #num_max_columnas = tablero1.shape[1]
 
             barcos_j1=[]
             barcos_j2=[]
@@ -39,6 +39,8 @@ def iniciar():
                 tablero1,barco1=crea_barco_aleatorio_j1(tablero1,i,dict_barcos_j1,jugador1)
                 barco_eslora=[i,barco1]
                 barcos_j1.append(barco_eslora)
+            time.sleep(2)
+            os.system("cls")
 
             # Creación barcos iniciales j2
             for i in esloras:
@@ -67,19 +69,19 @@ def iniciar():
                 print(f"""\n⚔️   TURNO DE {jugador1.upper()} ⚔️\n**********************""")
                 imprimir_tablero_color(tablero2)
 
-                x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {num_max_filas}): "))
-                x1=comprueba_coordenada_x(x1,jugador1)
-                y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al  {num_max_columnas}): "))
-                y1=comprueba_coordenada_y(y1,jugador1)
+                x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): "))
+                x1=comprueba_coordenada_x(x1,jugador1,tablero1)
+                y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al  {tablero1.shape[1]}): "))
+                y1=comprueba_coordenada_y(y1,jugador1,tablero1)
 
                 disparo_j1 = recibir_disparo(tablero2,(x1-1,y1-1),dict_barcos_j2,barcos_j2,jugador1)
         
                 while disparo_j1==False and (tablero2[x1-1,y1-1]=="X" or tablero2[x1-1,y1-1]=="-"):
                     print("entra")
-                    x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {num_max_filas}): "))
-                    x1=comprueba_coordenada_x(x1,jugador1)
-                    y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {num_max_columnas}): "))
-                    y1=comprueba_coordenada_y(y1,jugador1)
+                    x1=int(input(f"{jugador1}, introduce la coordenada x del barco que quieres derribar (numero del 1 al {tablero1.shape[0]}): "))
+                    x1=comprueba_coordenada_x(x1,jugador1,tablero1)
+                    y1=int(input(f"{jugador1}, introduce la coordenada y del barco que quieres derribar (numero del 1 al {tablero1.shape[1]}): "))
+                    y1=comprueba_coordenada_y(y1,jugador1,tablero1)
                     disparo_j1=recibir_disparo(tablero2,(x1-1,y1-1),dict_barcos_j2,barcos_j2,jugador1)
 
                 if disparo_j1 and tablero2[(x1-1,y1-1)]=="X":
@@ -97,7 +99,6 @@ def iniciar():
                     break
 
 
-                os.system("cls")
 
                 # #CODIGO JUGADOR 1 PRUEBA RAPIDA
                 # coordenada_j1=random.choice(coordenadas_j1)
@@ -124,7 +125,8 @@ def iniciar():
 
                 
 
-                #time.sleep(2)
+                time.sleep(2)
+                os.system("cls")
 
 
 
@@ -153,8 +155,8 @@ def iniciar():
                 if sum(dict_barcos_j1.values())==0:
                     break
 
-
-                #time.sleep(2)
+                time.sleep(2)
+                os.system("cls")
             
 
             
