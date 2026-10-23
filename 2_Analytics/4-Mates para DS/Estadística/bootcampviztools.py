@@ -67,7 +67,9 @@ def plot_categorical_relationship_fin(df, cat_col1, cat_col2, relative_freq=Fals
             plt.title(f'Relación entre {cat_col1} y {cat_col2} - Grupo {i + 1}')
             plt.xlabel(cat_col1)
             plt.ylabel('Frecuencia' if relative_freq else 'Conteo')
-            plt.xticks(rotation=45)
+            plt.xticks([1,2,3,4,5,6,7],['Department of Economics','Department of Mechanical Engineering','Department of Physics and Astronomy',\
+                                        'Department of Psychology','Other','School of Medicine'\
+                                            ,'School of Political Science and International Relations'],rotation=45)
 
             # Mostrar valores en el gráfico
             if show_values:
@@ -184,7 +186,7 @@ def plot_combined_graphs(df, columns, whisker_width=1.5, bins = None):
                     axes[i,1].set_title(f'Boxplot de {column}')
                 else:
                     axes[1].set_title(f'Boxplot de {column}')
-
+    
         plt.tight_layout()
         plt.show()
 
