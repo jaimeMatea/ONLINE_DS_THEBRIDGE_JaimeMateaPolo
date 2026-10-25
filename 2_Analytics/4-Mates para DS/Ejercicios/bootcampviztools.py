@@ -9,7 +9,7 @@ def pinta_distribucion_categoricas(df, columnas_categoricas, relativa=False, mos
     num_filas = (num_columnas // 2) + (num_columnas % 2)
 
     fig, axes = plt.subplots(num_filas, 2, figsize=(15, 5 * num_filas))
-    axes = axes.flatten() 
+    axes = axes.flatten()
 
     for i, col in enumerate(columnas_categoricas):
         ax = axes[i]
@@ -67,7 +67,7 @@ def plot_categorical_relationship_fin(df, cat_col1, cat_col2, relative_freq=Fals
             plt.title(f'Relación entre {cat_col1} y {cat_col2} - Grupo {i + 1}')
             plt.xlabel(cat_col1)
             plt.ylabel('Frecuencia' if relative_freq else 'Conteo')
-            plt.xticks(rotation=45)
+            plt.xticks(rotation=45,ha='right')
 
             # Mostrar valores en el gráfico
             if show_values:
@@ -81,13 +81,13 @@ def plot_categorical_relationship_fin(df, cat_col1, cat_col2, relative_freq=Fals
     else:
         # Crea el gráfico para menos de size_group categorías
         plt.figure(figsize=(10, 6))
-        ax = sns.barplot(x=cat_col1, y='count', hue=cat_col2, data=count_data)
+        ax = sns.barplot(x=cat_col1, y='count', hue=cat_col2, data=count_data,order=unique_categories)
 
         # Añade títulos y etiquetas
         plt.title(f'Relación entre {cat_col1} y {cat_col2}')
         plt.xlabel(cat_col1)
         plt.ylabel('Frecuencia' if relative_freq else 'Conteo')
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=45, ha='right')
 
         # Mostrar valores en el gráfico
         if show_values:

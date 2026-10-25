@@ -40,6 +40,7 @@ def pinta_distribucion_categoricas(df, columnas_categoricas, relativa=False, mos
     plt.show()
 
 
+
 def plot_categorical_relationship_fin(df, cat_col1, cat_col2, relative_freq=False, show_values=False, size_group = 5):
     # Prepara los datos
     count_data = df.groupby([cat_col1, cat_col2]).size().reset_index(name='count')
@@ -67,9 +68,7 @@ def plot_categorical_relationship_fin(df, cat_col1, cat_col2, relative_freq=Fals
             plt.title(f'Relación entre {cat_col1} y {cat_col2} - Grupo {i + 1}')
             plt.xlabel(cat_col1)
             plt.ylabel('Frecuencia' if relative_freq else 'Conteo')
-            plt.xticks([1,2,3,4,5,6,7],['Department of Economics','Department of Mechanical Engineering','Department of Physics and Astronomy',\
-                                        'Department of Psychology','Other','School of Medicine'\
-                                            ,'School of Political Science and International Relations'],rotation=45)
+            plt.xticks(rotation=45)
 
             # Mostrar valores en el gráfico
             if show_values:
@@ -100,6 +99,7 @@ def plot_categorical_relationship_fin(df, cat_col1, cat_col2, relative_freq=Fals
 
         # Muestra el gráfico
         plt.show()
+
 
 
 def plot_categorical_numerical_relationship(df, categorical_col, numerical_col, show_values=False, measure='mean'):
@@ -164,6 +164,7 @@ def plot_categorical_numerical_relationship(df, categorical_col, numerical_col, 
         plt.show()
 
 
+
 def plot_combined_graphs(df, columns, whisker_width=1.5, bins = None):
     num_cols = len(columns)
     if num_cols:
@@ -189,6 +190,8 @@ def plot_combined_graphs(df, columns, whisker_width=1.5, bins = None):
     
         plt.tight_layout()
         plt.show()
+
+
 
 def plot_grouped_boxplots(df, cat_col, num_col):
     unique_cats = df[cat_col].unique()
@@ -254,6 +257,7 @@ def grafico_dispersion_con_correlacion(df, columna_x, columna_y, tamano_puntos=5
     plt.show()
 
 
+
 def bubble_plot(df, col_x, col_y, col_size, scale = 1000):
     """
     Crea un scatter plot usando dos columnas para los ejes X e Y,
@@ -274,5 +278,3 @@ def bubble_plot(df, col_x, col_y, col_size, scale = 1000):
     plt.ylabel(col_y)
     plt.title(f'Burbujas de {col_x} vs {col_y} con Tamaño basado en {col_size}')
     plt.show()
-
-
