@@ -1,0 +1,7 @@
+﻿# Datasets grandes: mantenerlos en local, fuera de Git
+/2_Analytics/EDA/title.basics.tsv/
+/2_Analytics/EDA/name.basics.tsv/
+/2_Analytics/EDA/title.crew.tsv
+/2_Analytics/EDA/V-Dem-CY-Full+Others-v16.csv
+/2_Analytics/EDA/my_movies.csv
+/2_Analytics/EDA/plot_summaries.txt
